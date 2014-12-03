@@ -17,7 +17,8 @@ public class Bookpiler
     public static Collection<Set<Book>> sortForMaximumDiscount(List<Book> unsortedBasket)
     {
         List<Set<Book>> result = pass1(unsortedBasket);
-        return pass2(result);
+        pass2(result);
+        return result;
     }
 
 
@@ -61,7 +62,7 @@ public class Bookpiler
             boolean isInPile = false;
             for (Set<Book> books : result)
             {
-                if (!books.contains(book) && books.size() < 4)
+                if (!books.contains(book))
                 {
                     books.add(book);
                     isInPile = true;
@@ -76,33 +77,27 @@ public class Bookpiler
 
         return result;
     }
-    private static Collection<Set<Book>> pass2(List<Set<Book>> piles)
+
+    private static void pass2(List<Set<Book>> piles)
     {
-        List<Set<Book>> result = new ArrayList<Set<Book>>();
-        for (Set<Book> pile : piles)
+        for (Set<Book> fromPile : piles)
         {
-            if (pile.size() == 1)
-            {
-                boolean addedToPile = false;
-                for (Set<Book> books : result)
-                {
-                    if (!books.containsAll(pile)) {
-                        books.addAll(pile);
-                        addedToPile = true;
-                        break;
-                    }
-                }
-                if (!addedToPile){
-                    result.add(pile);
-                }
-            }
-            else
-            {
-                result.add(pile);
+	    for (Set<Book> toPile : piles)
+	    {
+		if (fromPile.size() == 5 && toPile.size() == 3)
+		{
+		    for (Book book : fromPile)
+		    {
+			if (!toPile.contains(book))
+			{
+			    fromPile.remove(book);
+			    toPile.add(book);
+			    break;
+			}
+		    }
+		    break;
+		}
             }
         }
-        return result;
     }
 }
-
-
