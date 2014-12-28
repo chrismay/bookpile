@@ -50,6 +50,7 @@ public class Bookpiler
             }
             int thisSetPrice = (800 * (100 - discount) * bookSet.size()) / 100;
             price = price + thisSetPrice;
+            
         }
         return price;
     }
